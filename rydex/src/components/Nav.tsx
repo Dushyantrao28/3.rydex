@@ -70,6 +70,7 @@ function Nav() {
                         {userData?.role == "partner" ? (
                             <>
                                 <Link className="relative text-sm font-medium text-gray-300 hover:text-white transition" href={"/"}>Home</Link>
+                                <Link className="relative text-sm font-medium text-gray-300 hover:text-white transition" href={"/user/book"}>Book a Ride</Link>
                                 <Link className="relative text-sm font-medium text-gray-300 hover:text-white transition" href={"/partner/pending-requests"}>Pending Requests
                                 <span className="absolute -top-2 -right-5 w-6 h-6 bg-white text-black text-xs rounded-full flex items-center justify-center font-bold">{pendingCount ?? 0}</span>
                                 </Link>
@@ -223,6 +224,7 @@ function Nav() {
 
                                  {userData.role=="partner" && (
                                   <div className='flex flex-col gap-4'>
+                                   <Link className="relative text-sm font-medium text-black hover:text-gray-500 transition" href={"/user/book"}>Book a Ride</Link>
                                    <Link className="relative text-sm font-medium text-black hover:text-gray-500 transition flex items-center gap-2" href={"/partner/pending-requests"}><span>Pending Requests</span>
                                 <span className="w-6 h-6 bg-black text-white text-xs rounded-full flex items-center justify-center font-bold">{pendingCount ?? 0}</span>
                                 </Link>
