@@ -1,8 +1,9 @@
 'use client'
 import axios from 'axios'
-import { CheckCircle2, Clock, Settings, Truck, User, Users, Video, XCircle } from 'lucide-react'
+import { CheckCircle2, Clock, Settings, Truck, User, Users, Video, XCircle, LogOut } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
+import { signOut } from 'next-auth/react'
 import Kpi from './Kpi'
 import TabButton from './TabButton'
 import { AnimatePresence } from 'motion/react'
@@ -55,9 +56,18 @@ function AdminDashboard() {
 
           </div>
 
-          <div className='flex items-center gap-2 text-xs px-3 py-1.5 rounded-full bg-black text-white'>
-            <User size={14} />
-            Admin Dashboard
+          <div className='flex items-center gap-4'>
+            <div className='flex items-center gap-2 text-xs px-3 py-1.5 rounded-full bg-black text-white'>
+              <User size={14} />
+              Admin Dashboard
+            </div>
+            <button 
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className='flex items-center gap-2 text-xs px-3 py-1.5 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition border border-red-100 cursor-pointer'
+            >
+              <LogOut size={14} />
+              Logout
+            </button>
           </div>
         </div>
       </div>
