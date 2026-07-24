@@ -23,9 +23,9 @@ function Nav() {
     const dispatch = useDispatch<AppDispatch>()
     const router = useRouter()
     const handleLogOut = async () => {
-        await signOut({ redirect: false })
         dispatch(setUserData(null))
         setProfileOpen(false)
+        await signOut({ callbackUrl: "/" })
     }
 
     const fetchCount=async ()=>{
