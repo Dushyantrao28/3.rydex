@@ -71,19 +71,22 @@ export async function POST(req: NextRequest) {
             fare,
 
             userMobileNumber: mobileNumber,
-            driverMobileNumber: driver.mobileNumber,
+            driverMobileNumber: driver.mobileNumber || "Not Provided",
 
             bookingStatus: "requested"
         })
 
-        await axios.post(`${process.env.NEXT_PUBLIC_SOCKET_SERVER_URL}/emit`,{
-           event:"new-booking",
-           userId:driverId,
-           data:booking
-        })
+        try {
+            await axios.post(`${process.env.NEXT_PUBLIC_SOCKET_SERVER_URL}/emit`, {
+                event: "new-booking",
+                userId: driverId,
+                data: booking
+            })
+        } catch (socketError) {
+            console.error("Socket emit failed", socketError)
+        }
 
-
- return NextResponse.json(
+        return NextResponse.json(
                 booking,{status:200}
             )
 
