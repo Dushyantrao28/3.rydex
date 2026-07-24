@@ -7,6 +7,8 @@ import { Clock, IndianRupee, Loader2, MapPin, Navigation } from 'lucide-react'
 import { div } from 'motion/react-client'
 import { useRouter } from 'next/navigation'
 import { getSocket } from '@/lib/socket'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/redux/store'
 
  interface IBooking {
     _id:string
@@ -61,6 +63,55 @@ function page() {
         }
     }
 
+    const { userData } = useSelector((state: RootState) => state.user)
+    const [isOnline, setIsOnline] = useState(false)
+
+    useEffect(() => {
+        if (userData) {
+            setIsOnline(userData.isOnline)
+        }
+    }, [userData])
+
+    useEffect(() => {
+        let watchId: number;
+        if (isOnline && navigator.geolocation) {
+            watchId = navigator.geolocation.watchPosition(async ({ coords }) => {
+                try {
+                    await axios.post("/api/partner/status", {
+                        isOnline: true,
+                        latitude: coords.latitude,
+                        longitude: coords.longitude
+                    })
+                } catch (error) {
+                    console.log("Error updating location", error)
+                }
+            }, (err) => {
+                console.log(err)
+            }, {
+                enableHighAccuracy: true,
+                maximumAge: 5000
+            })
+        }
+        return () => {
+            if (watchId && navigator.geolocation) {
+                navigator.geolocation.clearWatch(watchId)
+            }
+        }
+    }, [isOnline])
+
+    const handleToggleOnline = async () => {
+        const newStatus = !isOnline
+        setIsOnline(newStatus)
+        try {
+            await axios.post("/api/partner/status", {
+                isOnline: newStatus
+            })
+        } catch (error) {
+            console.log("Error toggling status", error)
+            setIsOnline(!newStatus) // revert on error
+        }
+    }
+
     const handleAccept=async (id:string)=>{
         try {
            const {data}=await axios.get(`/api/partner/bookings/${id}/accept`) 
@@ -99,9 +150,25 @@ function page() {
     return (
         <div className='min-h-screen bg-[#f4f5f7]'>
             <div className='bg-white border-b border-gray-200'>
-                <div className='max-w-6xl mx-auto px-6 py-16'>
-                    <h1 className='text-4xl font-semibold text-gray-900'>Ride Requests</h1>
-                    <p className='mt-3 text-gray-500 text-lg'> Manage incoming ride requests and respond in real time.</p>
+                <div className='max-w-6xl mx-auto px-6 py-16 flex flex-col md:flex-row md:items-center justify-between gap-6'>
+                    <div>
+                        <h1 className='text-4xl font-semibold text-gray-900'>Ride Requests</h1>
+                        <p className='mt-3 text-gray-500 text-lg'> Manage incoming ride requests and respond in real time.</p>
+                    </div>
+                    <div className='flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-200 shadow-sm'>
+                        <div>
+                            <p className='text-sm font-bold text-gray-900'>Driver Status</p>
+                            <p className='text-xs text-gray-500'>{isOnline ? 'You are visible to customers' : 'Go online to receive rides'}</p>
+                        </div>
+                        <button 
+                            onClick={handleToggleOnline}
+                            className={`relative inline-flex h-8 w-14 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${isOnline ? 'bg-emerald-500' : 'bg-gray-300'}`}
+                        >
+                            <span 
+                                className={`pointer-events-none inline-block h-7 w-7 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${isOnline ? 'translate-x-6' : 'translate-x-0'}`} 
+                            />
+                        </button>
+                    </div>
                 </div>
             </div>
 
