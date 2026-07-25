@@ -1,4 +1,5 @@
 <div align="center">
+<img src="image.png" alt="Rydex Logo" width="250" />
 
 # 🚖 Rydex
 
