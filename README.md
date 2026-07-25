@@ -20,8 +20,6 @@ A scalable ride-hailing ecosystem featuring dedicated user and driver dashboards
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
 - [Architecture & Modules](#-architecture--modules)
-- [Getting Started](#-getting-started)
-- [Environment Variables](#-environment-variables)
 - [Project Structure](#-project-structure)
 - [Future Roadmap](#-future-roadmap)
 - [License](#-license)
@@ -70,3 +68,41 @@ A scalable ride-hailing ecosystem featuring dedicated user and driver dashboards
 * Broadcasts location coordinates at set intervals to minimize latency and payload size.
 
 ---
+## 📁 Project Structure
+```text
+3.rydex/
+├── client/                 # Frontend application (Next.js)
+│   ├── app/                # Next.js App Router (Pages, Layouts)
+│   │   ├── (auth)/         # Authentication routes (Login, Signup)
+│   │   └── dashboard/      # Rider & Driver dashboards
+│   ├── components/         # Reusable UI components (Buttons, Modals, Maps)
+│   ├── hooks/              # Custom React hooks (e.g., useSocket, useLocation)
+│   ├── lib/                # Utility functions and library initializations
+│   ├── public/             # Static assets (Images, Icons)
+│   └── styles/             # Global CSS and Tailwind configurations
+│
+└── server/                 # Backend application (Node.js/Express)
+    ├── config/             # Environment & Database configurations
+    ├── controllers/        # Business logic for rides, users, and payments
+    ├── middlewares/        # Auth and Error handling middlewares
+    ├── models/             # Database schemas (User, Driver, Ride)
+    ├── routes/             # API endpoint definitions
+    └── sockets/            # Socket.io event handlers for real-time tracking
+
+```
+## 🛣 Future Roadmap
+
+- [ ] **AI Smart Dispatching:** Integrate predictive models to position drivers in high-demand zones before surges occur.
+- [ ] **Dynamic Pricing Engine:** Implement algorithmic surge pricing based on real-time traffic and weather data.
+- [ ] **In-App Chat:** Add encrypted P2P messaging between riders and drivers without revealing phone numbers.
+- [ ] **Expanded Analytics:** Comprehensive admin reporting on revenue trends, peak hours, and cancellation rates.
+
+---
+
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).
+
+<div align="center">
+  <b>Built with ❤️ by <a href="https://github.com/Dushyantrao28">Dushyant Singh</a></b>
+</div>
