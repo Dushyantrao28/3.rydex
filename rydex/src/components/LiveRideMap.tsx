@@ -1,4 +1,5 @@
 import { LatLngExpression } from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import React, { useEffect, useState } from 'react'
 import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet'
 import L from "leaflet"

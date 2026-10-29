@@ -5,7 +5,7 @@ import Provider from "@/lib/Provider";
 import ReduxProvider from "@/redux/ReduxProvider";
 import InitUser from "@/InitUser";
 import "./globals.css";
-import "leaflet/dist/leaflet.css";
+// Note: leaflet/dist/leaflet.css is imported in the map component directly (client-side only)
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
